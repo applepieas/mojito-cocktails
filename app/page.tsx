@@ -1,10 +1,15 @@
+import { main } from "ts-node/dist/bin"
+import NavBar from "./components/NavBar"
+import Hero from "./components/Hero"
 
 
 const page = () => {
   return (
-    <div>
-      <h1 className="text-4xl font-bold">Hello, GSAP</h1>
-    </div>
+    <main>
+      <NavBar />
+      <Hero />
+      <div className="h-screen"></div>
+    </main>
   )
 }
 
