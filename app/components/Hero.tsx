@@ -4,11 +4,16 @@ import { useGSAP } from '@gsap/react'
 import { SplitText } from 'gsap/all'
 import gsap from 'gsap'
 import Image from 'next/image'
-import React, { use } from 'react'
+import React, { useRef } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 
 
 const Hero = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   useGSAP(() => {
     const heroSplit = new SplitText('.title', { type: 'chars, words' })
 
@@ -44,6 +49,29 @@ const Hero = () => {
       .to('.right-leaf', { y: 200, ease: 'none' }, 0)
       .to('.left-leaf', { y: -200, ease: 'none' }, 0)
 
+    const startValue = isMobile ? "top 50%" : "center 60%";
+    const endValue = isMobile ? "120% top" : "bottom top";
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "video",
+        start: startValue,
+        end: endValue,
+        scrub: true,
+        pin: true,
+      },
+    });
+
+    if (videoRef.current) {
+      videoRef.current.onloadedmetadata = () => {
+        if (videoRef.current) {
+          tl.to(videoRef.current, {
+            currentTime: videoRef.current.duration,
+          });
+        }
+      };
+    }
+
   }, [])
 
   return (
@@ -51,8 +79,8 @@ const Hero = () => {
       <section id='hero' className='noisy'>
         <h1 className="title">MOJITO</h1>
 
-        <Image src='/images/hero-left-leaf.png' alt="Hero Left Leaf" className='left-leaf' width={150} height={100} />
-        <Image src='/images/hero-right-leaf.png' alt="Hero right Leaf" className='right-leaf' width={150} height={100} />
+        <Image src='/images/hero-left-leaf.png' alt="Hero Left Leaf" className='left-leaf' width={100} height={100} />
+        <Image src='/images/hero-right-leaf.png' alt="Hero right Leaf" className='right-leaf' width={100} height={100} />
 
         <div className="body">
           <div className="content">
@@ -75,6 +103,16 @@ const Hero = () => {
         </div>
 
       </section>
+
+      <div className="video absolute inset-0">
+        <video
+          ref={videoRef}
+          src="/videos/output.mp4"
+          muted
+          playsInline
+          preload='auto'
+        />
+      </div>
     </>
   )
 }

@@ -8,7 +8,6 @@ const page = () => {
     <main>
       <NavBar />
       <Hero />
-      <div className="h-screen"></div>
     </main>
   )
 }
