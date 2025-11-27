@@ -4,6 +4,8 @@ import Hero from "./components/Hero"
 import Cocktails from "./components/Cocktails"
 import About from "./components/About"
 import Art from "./components/Art"
+import Menu from "./components/Menu"
+import Footer from "./components/Footer"
 
 
 const page = () => {
@@ -14,6 +16,8 @@ const page = () => {
       <Cocktails />
       <About />
       <Art />
+      <Menu />
+      <Footer />
     </main>
   )
 }
